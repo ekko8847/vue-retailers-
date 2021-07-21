@@ -71,9 +71,7 @@ export default {
         params: {
           keyword: this.keyword || undefined, //当params参数没有值时设置为undefined实现正常跳转
         },
-        query: {
-          keyword1: this.keyword.toUpperCase(),
-        },
+        query: this.$route.query,
       });
     },
   },

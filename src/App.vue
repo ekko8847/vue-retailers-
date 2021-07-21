@@ -16,6 +16,14 @@ export default {
     Header,
     Footer,
   },
+  mounted() {
+    this.getCategory();
+  },
+  methods: {
+    getCategory() {
+      this.$store.dispatch("getCategory");
+    },
+  },
 };
 </script>
 
