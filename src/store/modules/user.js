@@ -1,10 +1,10 @@
 const state = {};
 const actions = {};
-const mutaions = {};
+const mutations = {};
 const getters = {};
 export default {
   state,
-  mutaions,
+  mutations,
   actions,
   getters,
 };

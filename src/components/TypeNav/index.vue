@@ -1,8 +1,8 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <div @mouseleave="moveTo">
-        <h2 class="all" @mouseenter="isShow = true">全部商品分类</h2>
+      <div @mouseleave="moveTo" @mouseenter="isShow = true">
+        <h2 class="all">全部商品分类</h2>
         <transition name="sort">
           <div class="sort" @click="toSearch" v-show="isShow">
             <div class="all-sort-list2">
@@ -92,6 +92,7 @@ export default {
     };
   },
   mounted() {
+    //至于第一次判断能生效是因为上来就执行一次,判断路径的时候不会有params不受影响
     if (this.$route.path === "/search") {
       this.isShow = false;
     }
@@ -126,21 +127,27 @@ export default {
           categoryName: categoryname,
         };
         if (category1id) {
-          query.categoryId = category1id;
+          query.category1Id = category1id;
         } else if (category2id) {
-          query.categoryId = category2id;
+          query.category2Id = category2id;
         } else {
-          query.categoryId = category3id;
+          query.category3Id = category3id;
         }
         location.query = query;
         //加上params参数
         location.params = this.$route.params;
-        this.$router.push(location);
+        if (this.$route.path !== "/home") {
+          this.$router.replace(location);
+        } else {
+          this.$router.push(location);
+        }
       }
     },
     moveTo() {
       this.currentIndex = -1;
-      if (this.$route.path === "/search") {
+      if (this.$route.path !== "/home") {
+        //不能判断成==='search'因为params参数会改变路径 还是不能触发,
+
         this.isShow = false;
       }
     },

@@ -63,16 +63,27 @@ export default {
       keyword: "",
     };
   },
+  mounted() {
+    //接收这个事件和传递过来的数据,执行回调
+    this.$bus.$on("clear", () => {
+      this.keyword = "";
+    });
+  },
   methods: {
     search() {
-      this.$router.push({
+      let location = {
         // path: "/search",
         name: "search", //params参数不可配合path使用
         params: {
           keyword: this.keyword || undefined, //当params参数没有值时设置为undefined实现正常跳转
         },
-        query: this.$route.query,
-      });
+      };
+      location.query = this.$route.query;
+      if (this.$route.path !== "/home") {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
     },
   },
 };

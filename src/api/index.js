@@ -18,3 +18,10 @@ export const reqFloorList = () => {
     method: "get",
   });
 };
+export const reqGoodsList = (params) => {
+  return Ajax({
+    url: "/list",
+    method: "post",
+    data: params,
+  });
+};
