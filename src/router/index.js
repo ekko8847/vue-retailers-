@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import routes from "./routes";
+import store from "@/store";
+
 Vue.use(VueRouter);
-import Home from "@/pages/Home";
-import Register from "@/pages/Rigister";
-import Login from "@/pages/Login";
-import Search from "@/pages/Search";
+
 const originPush = VueRouter.prototype.push;
 const originRepalce = VueRouter.prototype.replace;
 //实际思想就是没有错误处理我们给他加一个错误处理
@@ -23,34 +23,33 @@ VueRouter.prototype.replace = function(location, resolve, reject) {
   }
 };
 
-export default new VueRouter({
-  routes: [
-    {
-      path: "/home",
-      component: Home,
-    },
-    {
-      path: "/register",
-      component: Register,
-      meta: {
-        isHidden: true,
-      },
-    },
-    {
-      path: "/login",
-      component: Login,
-      meta: {
-        isHidden: true,
-      },
-    },
-    {
-      path: "/search/:keyword?", //使用params参数一定要占位,params是直接写进路径的
-      name: "search",
-      component: Search,
-    },
-    {
-      path: "/",
-      redirect: "/home",
-    },
-  ],
+const router = new VueRouter({
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 };
+  },
 });
+router.beforeEach(async (to, from, next) => {
+  let token = store.state.user.token;
+  let userInfo = store.state.user.userInfo;
+  if (token) {
+    if (to.path === "/login") {
+      next("/");
+    } else {
+      if (userInfo.name) {
+        next();
+      } else {
+        try {
+          await store.dispatch("getUserInfo");
+          next();
+        } catch (error) {
+          await store.dispatch("removeToken");
+          next("/login");
+        }
+      }
+    }
+  } else {
+    next();
+  }
+});
+export default router;
