@@ -99,6 +99,20 @@
 </template>
 
 <script>
+//购物车页面步骤:
+/*1,先发请求拿到数据, 
+2,再完成单个input框的ischecked值,1为选中,2为未选中
+3,完成选中物品数量的修改,发请求修改数据,再请求数据渲染到页面(接口文档参数为差值,商品信息) 
+4,删除也是先发请求修改数据库数据,然后请求数据渲染到页面
+5,接下来就是多选框和批量删除了(核心思想还是发请求去修改数据,然后再请求数据渲染)
+v-model也可用于复选框(收集的是bool值)配合get()和set()使用
+get()返回一个bool值,当所有的item的ischecked为1就变为true(实时计算)
+set()修改,注意不是直接修改,我们所有的修改都是发请求去修改然后展示(准备好请求所需要的的参数).
+ */
+/* 关于tempID,不设置tempID的话是请求不到数据的,服务器不会知道你是谁(返回不到数据)
+先在工具utils定义一个设置tempID的函数,再在vuex中保存
+然后在请求拦截器中加入这个id;
+*/
 import { mapState } from "vuex";
 export default {
   name: "ShopCart",
@@ -131,6 +145,8 @@ export default {
         return prev;
       }, 0);
     },
+
+    //计算属性的get和set方法 get为读取checkbox的值,set去修改且可以拿到最新状态的值(bool值)
     checkAll: {
       get() {
         return (
@@ -139,9 +155,12 @@ export default {
           ) && this.shopCartList.length > 0
         );
       },
+      //val为新值 v-model绑定的input框的bool值
       async set(val) {
+        //因为val为bool值,我们需要转化一下为1或者零
         let isChecked = val ? 1 : 0;
         let skuIdList = [];
+        //当多选框值为true时找到所有item(一项项去找)ischecked值不相符的item放进一个数组(发请求需要)
         this.shopCartList.forEach((item) => {
           item.cartInfoList.forEach((item1) => {
             if (item1.isChecked !== isChecked) {

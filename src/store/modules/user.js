@@ -25,6 +25,7 @@ const actions = {
       return Promise.reject(new Error("FF"));
     }
   },
+  //第一次登陆的时候后台需要给你返回一个token,得将他保存在localstorage中
   async getUserLogin({ commit }, userInfo) {
     const result = await reqLogin(userInfo);
     if (result.code === 200) {

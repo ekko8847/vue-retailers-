@@ -92,8 +92,8 @@ export default {
     };
   },
   mounted() {
-    //至于第一次判断能生效是因为上来就执行一次,判断路径的时候不会有params不受影响
-    if (this.$route.path === "/search") {
+    //后面这个组件会复用,只希望在home组件展示sort
+    if (this.$route.path !== "/home") {
       this.isShow = false;
     }
   },

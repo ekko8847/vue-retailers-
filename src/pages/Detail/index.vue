@@ -388,6 +388,7 @@ export default {
     getGoodsDetail() {
       this.$store.dispatch("getgoodsDetail", this.skuId);
     },
+    //排他思想 先让所有变为0.再让点击的那个变为1
     changeIschecked(item, item1) {
       item.forEach((item) => (item.isChecked = "0"));
       item1.isChecked = "1";

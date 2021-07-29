@@ -15,6 +15,7 @@ instance.interceptors.request.use((config) => {
   if (userTempId) {
     config.headers.userTempId = userTempId;
   }
+  //token相当于正式标识
   let token = store.state.user.token;
   if (token) {
     config.headers.token = token;

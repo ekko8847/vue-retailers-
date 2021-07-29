@@ -16,7 +16,7 @@ const mutations = {
   },
 };
 const actions = {
-  //数据为空
+  //数据为空 需要进行后续操作就return(需要根据成功或者失败的结构做出相应)
   async addShopCart({ commit }, { skuId, skuNum }) {
     const result = await reqAddShopCart(skuId, skuNum);
     if (result.code === 200) {

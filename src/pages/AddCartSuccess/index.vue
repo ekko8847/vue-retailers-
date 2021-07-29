@@ -35,6 +35,7 @@ export default {
       skuNum: "",
     };
   },
+  //在组件创建之前拿到存储在sessionStorage中的数据展示(本地存储)
   beforeMount() {
     this.skuNum = this.$route.query.skuNum;
     this.skuInfo = JSON.parse(sessionStorage.getItem("skuInfo_key"));
