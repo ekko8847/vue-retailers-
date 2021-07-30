@@ -91,7 +91,8 @@
           <i class="summoney">{{ totalMoney }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link class="sum-btn" to="/trade">结算</router-link>
+          <!-- <a class="sum-btn" href="###" target="_blank">结算</a> -->
         </div>
       </div>
     </div>
@@ -109,6 +110,7 @@ v-model也可用于复选框(收集的是bool值)配合get()和set()使用
 get()返回一个bool值,当所有的item的ischecked为1就变为true(实时计算)
 set()修改,注意不是直接修改,我们所有的修改都是发请求去修改然后展示(准备好请求所需要的的参数).
  */
+
 /* 关于tempID,不设置tempID的话是请求不到数据的,服务器不会知道你是谁(返回不到数据)
 先在工具utils定义一个设置tempID的函数,再在vuex中保存
 然后在请求拦截器中加入这个id;

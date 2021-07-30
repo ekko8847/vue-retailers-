@@ -81,8 +81,10 @@ export default {
   name: "Login",
   data() {
     return {
-      phone: "13264709273",
-      password: "123",
+      // phone: "13264709273",
+      // password: "123",
+      phone: "13700000000",
+      password: "111111",
     };
   },
   methods: {
